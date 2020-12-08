@@ -1,8 +1,13 @@
 export interface Profile {
   email: string;
-  firstName: string;
-  lastName: string;
+  /* eslint-disable-next-line camelcase */
+  given_name: string;
+  /* eslint-disable-next-line camelcase */
+  family_name: string;
   name: string;
+  picture: string;
+  /* eslint-disable-next-line camelcase */
+  email_verified: boolean;
 }
 
 export const TYPES = {

@@ -1,15 +1,34 @@
 import Amplify, { Hub } from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
-import API from '@aws-amplify/api';
-import { Config } from '../Config';
+import { API, graphqlOperation } from '@aws-amplify/api';
+import Config from '../Config';
 
 // Amplify.Logger.LOG_LEVEL = 'VERBOSE';
 // (window as any).LOG_LEVEL = 'DEBUG'
 
-Amplify.configure(Config.Amplify)
+//graphql config required in the amplify.config root as explained in the docs
+Amplify.configure({
+  ...Config.Amplify,
+  Auth: Config.Amplify.Auth,
+  aws_appsync_graphqlEndpoint: Config.Amplify.AppSync.endpoint,
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  aws_appsync_region: 'us-east-1',
+})
+console.log({
+  ...Config.Amplify,
+  Auth: Config.Amplify.Auth,
+  aws_appsync_graphqlEndpoint: Config.Amplify.AppSync.endpoint,
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  aws_appsync_region: 'us-east-1',
+})
 Auth.configure(Config.Amplify.Auth)
 
+
+
 API.configure({
+  // graphql_endpoint: Config.Amplify.AppSync.endpoint,
+  // graphql_defaultAuthenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  // graphql_endpoint_iam_region: 'us-east-1',
   endpoints: [
     {
       name: "remotejobs-api",
@@ -21,4 +40,4 @@ API.configure({
   ]
 })
 
-export { Amplify, Auth, API, Hub };
+export { Amplify, Auth, API, Hub, graphqlOperation };

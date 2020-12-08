@@ -27,6 +27,8 @@ export default function authReducer(
         isAuthenticated: true,
         profile: action.payload
       }
+    case 'auth.signOut':
+      return initialState;
     default:
       return state
   }

@@ -56,8 +56,19 @@ const useAmplifyAuth = () => {
     });
 
     Auth.currentAuthenticatedUser()
-      .then(user => {
+      .then(async user => {
         if (user) {
+          //Get the current session from aws amplify
+          const session = await Auth.currentSession();
+          if (chrome) {
+            chrome.runtime.sendMessage(
+              'ngffffpnaojkieodkhefemdopebggjip',
+              { session },
+              function (response: any) {
+                console.log('got a responseresponse:', response)
+              });
+          }
+
           handleUserLogin(user);
         }
       }).catch(error => {

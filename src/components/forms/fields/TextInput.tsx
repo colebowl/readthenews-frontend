@@ -35,6 +35,7 @@ const TextInput: React.FC<Props> = (props) => {
         required={required}
       >
         <GrommetTextInput
+          plain={false}
           name={name}
           value={value}
           onChange={onChange}

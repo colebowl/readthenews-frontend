@@ -1,9 +1,9 @@
 import { InjectedFormikProps, withFormik } from 'formik';
 import * as React from 'react';
 import * as Yup from 'yup';
-import { Box, Grid } from 'grommet';
 
 import TextInput from './fields/TextInput';
+import Select from './fields/Select';
 import TextArea from './fields/TextArea';
 import FileUploader from './fields/FileUploader';
 
@@ -16,6 +16,7 @@ interface FormValues {
   officeLocation: string;
   missionVisionValues: string;
   whyShouldCandidateWorkThere: string;
+  category: string;
 }
 
 interface FormProps {
@@ -27,6 +28,7 @@ const InnerForm: React.SFC<InjectedFormikProps<FormProps, FormValues>> = (
 ) => (
     <form onSubmit={props.handleSubmit}>
       <TextInput
+
         label="Company Name"
         error={props.errors.name}
         onChange={props.handleChange}
@@ -94,6 +96,31 @@ const InnerForm: React.SFC<InjectedFormikProps<FormProps, FormValues>> = (
         name="logoUrl"
         value={props.values.logoUrl}
       />
+
+      <Select
+        error={props.errors.category}
+        label="Category"
+        onChange={props.handleChange}
+        name="category"
+        value={props.values.category}
+        options={[
+          'Software Development',
+          'Customer Service',
+          'Design',
+          'Sales',
+          'Marketing',
+          'Product',
+          'Business',
+          'Data',
+          'DevOps / Sysadmin',
+          'Finance / Legal',
+          'Human Resources',
+          'QA',
+          'Teaching',
+          'Medical / Health',
+          'Writing',
+          'All others'
+        ]} />
     </form>
   );
 
@@ -115,4 +142,7 @@ const CompanyProfileForm = withFormik<FormProps, FormValues>({
   },
 })(InnerForm);
 
+CompanyProfileForm.propTypes = {
+  // handleSubmit: PropTypes.func.isRequired,
+}
 export default CompanyProfileForm;

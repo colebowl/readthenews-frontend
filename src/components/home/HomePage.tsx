@@ -1,14 +1,20 @@
+import { Box } from 'grommet';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import PageWrapper from '../layout/PageWrapper';
+import AppBar from '../layout/AppBar';
+
 interface Props { }
 
-const HomePage: React.FC<Props> = (props) => {
+const HomePage: React.FC<Props> = () => {
   return (
-    <>
-      <h1>This is the home page!</h1>
-      <Link to="/register">Register</Link>
-    </>
+    <PageWrapper hideAppBar>
+      <Box>
+        <AppBar />
+        <Link to="/register">Register</Link>
+      </Box>
+    </PageWrapper>
   );
 };
 export default HomePage;

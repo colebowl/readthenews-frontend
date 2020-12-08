@@ -1,0 +1,27 @@
+{
+  "title": "Welcome to react using react-i18next",
+  "description": {
+    "part1": "To get started, edit <1>src/App.js</1> and save to reload.",
+    "part2": "Switch language between english and german using buttons above."
+  },
+  "auth": {
+    "Login": {
+      "loginToApp": "Connectez-vous à {{appName}}",
+      "continueWithGoogle": "Continuer avec Facebook"
+    }
+  },
+  "layout": {
+    "AppBar": {
+      "dashboard": "Dashboard",
+      "home": "Masion",
+      "login": "Se Connecter"
+    }
+  },
+  "components": {
+    "dashboard": {
+      "index": {
+        "dummyText": "Dashboard weee!!!"
+      }
+    }
+  }
+}

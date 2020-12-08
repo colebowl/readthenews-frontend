@@ -34,6 +34,7 @@ const TextArea: React.FC<Props> = (props) => {
       required={required}
     >
       <GrommetTextArea
+        plain={false}
         name={name}
         value={value}
         onChange={onChange}
