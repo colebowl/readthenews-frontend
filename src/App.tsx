@@ -2,7 +2,7 @@ import React from 'react';
 import { Grommet } from 'grommet';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider,} from '@apollo/client';
 
 import useAmplifyAuth from './hooks/auth/useAmplifyAuth';
 import AuthenticatedRoute from './components/auth/AuthenticatedRoute';
@@ -16,10 +16,10 @@ import { RootState } from './store';
 import theme from './theme';
 import client from './shared/apollo';
 
+
 const App = () => {
   const { initilized } = useAmplifyAuth();
   const { mode } = useSelector((st: RootState) => st.app);
-
   return (
     <ApolloProvider client={client}>
       <React.Suspense fallback="loading">

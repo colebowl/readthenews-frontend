@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.3.3",
+    "@apollo/client": "^3.3.5",
     "@aws-amplify/api": "^3.2.2",
     "@aws-amplify/auth": "^3.4.2",
     "@aws-amplify/core": "^3.5.2",
@@ -33,6 +33,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.1",
+    "subscriptions-transport-ws": "^0.9.18",
     "typescript": "~3.7.2",
     "yup": "^0.29.3"
   },

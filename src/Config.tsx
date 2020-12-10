@@ -19,12 +19,13 @@ const Config: Config = {
     API: {},
     AppSync: {
       endpoint: 'https://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql',
+      ws: 'wss://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql'
     },
     Auth: {
       region: process.env.REACT_APP_AmplifyAuthRegion || 'us-east-1',
-      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '3gf0fk2h8eftbvg20o6ut1577k',
-      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_l1ZY862Aj',
-      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:c7dbb67d-9b78-47f4-a2fa-2430b4ce86d6',
+      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '5nqh1btgt5frfbl9j6tiugj35d',
+      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_hRPaZKP9Q',
+      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:26f56b06-e185-4da4-892c-75af871d7134',
       oauth: {
         domain: process.env.REACT_APP_AmplifyOauthDomain || 'dev-readthenews.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
