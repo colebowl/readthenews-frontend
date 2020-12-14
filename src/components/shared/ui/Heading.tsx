@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = (props) => {
-  const { children, i18nKey, i18nValues, level } = props;
+  const { i18nKey, i18nValues, level } = props;
   const { t } = useTranslation();
   return (
     <GrommetHeading level={level as any}>

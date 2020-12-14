@@ -1,4 +1,5 @@
 export interface Profile {
+  id: string;
   email: string;
   /* eslint-disable-next-line camelcase */
   given_name: string;

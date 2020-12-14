@@ -1,7 +1,7 @@
-import React, { IframeHTMLAttributes } from 'react';
+import React from 'react';
 import { Box, Grid } from 'grommet';
 import { Route, Switch } from 'react-router-dom';
-import { gql, useSubscription } from '@apollo/client';
+
 import SideBar from './SideBar';
 import SubscriptionEmails from './SubscriptionEmails';
 import EmailsReceivedToday from './EmailsReceivedToday';
@@ -11,38 +11,9 @@ import Header from './Header';
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
 
 
-const tsl = gql`
-subscription MySubscription {
-  onNewEmail(userId: "USER#fc088bb8-c834-4025-8690-485511d80850") {
-    email {
-      fromAddress
-      id
-      read
-      receivedAt
-      userId
-      subscriptionId
-      subject
-    }
-  }
-}
-`
-
 const Dashboard: React.FC = () => {
   const { selectedEmail } = useSelectedEmail();
   const iframeRef = React.useRef<any>();
-  const { data } = useSubscription(tsl)
-  // React.useEffect(() => {
-  //   console.log('iframeRef:', iframeRef)
-  //   const doc = iframeRef.current && iframeRef.current.contentDocument;
-  //   if (!doc) return;
-
-  //   const css = 'background: red !important;';
-  //   const head = doc.head || doc.getElementsByTagName('head')[0];
-  //   console.log('head:', head)
-  //   head.setAttribute('style', css)
-
-  // }, [iframeRef]);
-
   return (
     <>
       <Grid
@@ -60,6 +31,7 @@ const Dashboard: React.FC = () => {
         <Header />
         <SideBar />
         <Box
+          overflow={{ vertical: 'auto' }}
           background={{ dark: 'dark-6' }}
           border={{
             color: { dark: 'dark-4', light: 'light-4' },

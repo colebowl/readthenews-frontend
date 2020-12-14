@@ -1,23 +1,18 @@
 import React from 'react';
-import { Avatar, Box, Button, Heading, List, Text } from 'grommet';
-import { DocumentNode, useQuery, OperationVariables, gql, useMutation } from '@apollo/client';
+import { Image, Avatar, Box, InfiniteScroll, Heading, Text, Button } from 'grommet';
+import { DocumentNode, useQuery, OperationVariables } from '@apollo/client';
 import moment from 'moment';
+import { useToasts } from 'react-toast-notifications';
 
 import Spinner from '../shared/Spinner';
-import Pill from '../shared/ui/Pill';
-import { Email, Subscription } from '../../shared/types';
+import EmailListItem from './EmailListItem';
+
+import { Email, Subscription, SubscriptionDictonary } from '../../shared/types';
+import { listSubscriptionsQuery } from '../../graphql/queries';
+import { subscriptionQuery } from '../../graphql/subscriptions';
+
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
-import { listSubscriptionsQuery } from './SubscriptionsAccordion';
-
-
-
-const markEmailReadQuery = gql`
-  mutation MarkEmailAsRead($id: String!) {
-    markEmailAsRead(id: $id, read: true) {
-      read
-    }
-  }
-`;
+import useProfile from 'hooks/auth/useProfile';
 
 interface Props {
   subscription?: Subscription;
@@ -28,11 +23,52 @@ interface Props {
 
 const EmailsList: React.FC<Props> = (props) => {
   const { onEmailClick, query, subscription, queryVars } = props;
+  const { profile } = useProfile()
   const { selectedEmail } = useSelectedEmail();
 
-  const [markEmailAsRead] = useMutation(markEmailReadQuery);
-  const { loading, data } = useQuery(query, queryVars);
+  const { loading, data, subscribeToMore } = useQuery(query, queryVars);
   const { data: allSubscrpitions } = useQuery(listSubscriptionsQuery);
+  const { addToast } = useToasts()
+
+  const subscriptionsList = React.useMemo<SubscriptionDictonary>(() => {
+    if (!allSubscrpitions || !allSubscrpitions.listSubscriptions) return {} as SubscriptionDictonary;
+    return allSubscrpitions
+      .listSubscriptions
+      .items
+      .reduce(
+        (all: SubscriptionDictonary, sub: Subscription) => ({
+          ...all,
+          [sub.id]: sub
+        }),
+        {}
+      ) as SubscriptionDictonary;
+  }, [allSubscrpitions]);
+
+
+
+  React.useEffect(() => {
+    if (Object.keys(subscriptionsList).length) {
+
+      subscribeToMore({
+        document: subscriptionQuery,
+        variables: { userId: profile ? profile.id : '' },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const newEmail = subscriptionData.data.onNewEmail.email;
+          const next = {
+            ...prev,
+            listEmails: {
+              ...prev.listEmails,
+              items: [newEmail, ...prev.listEmails.items]
+            }
+          }
+          addToast({ email: newEmail, subscription: subscriptionsList[newEmail.subscriptionId] || {} }, { appearance: 'info' });
+          return next;
+        }
+      })
+    }
+    // eslint-disable-next-line
+  }, [subscriptionsList]);
 
   const emailsList = React.useMemo(() => {
     if (!data || !data.listEmails) return [];
@@ -45,10 +81,10 @@ const EmailsList: React.FC<Props> = (props) => {
   }, [data]);
 
   return (
-    <Box>
+    <Box flex={false} overflow={{ vertical: 'auto' }}>
       {subscription && (
         <Box
-
+          flex
           margin={{ horizontal: 'small' }}
           border={{ side: 'horizontal', color: "light-2" }}
           pad={{ bottom: 'medium' }}
@@ -59,77 +95,53 @@ const EmailsList: React.FC<Props> = (props) => {
               size="medium"
               src={subscription.iconUrl || `https://ui-avatars.com/api/?name=${subscription.name}`}
             />
-            <Box flex>
+            < Box flex >
               <Heading level="6">{subscription.name}</Heading>
-            </Box>
-          </Box>
+            </Box >
+          </Box >
           <Text size="small">Subscribed since: {moment(subscription.registeredAt).format('MMM YYYY')}</Text>
-        </Box>
+        </Box >
       )}
 
       {loading ? <Spinner /> : (
-        <List
-          primaryKey="receivedAt"
-          border={{ side: 'horizontal', color: "light-2" }}
-          pad="none"
-          secondaryKey="subject"
-          onClickItem={({ item }: any) => onEmailClick(item as Email)}
-          data={emailsList}
-        >
-          {(item: Email) => {
-            const itemSelected = selectedEmail && selectedEmail.id === item.id;
-            const itemSubscription: Subscription = allSubscrpitions.listSubscriptions && allSubscrpitions.listSubscriptions
-              .items
-              .find((sub: Subscription) => sub.id === item.subscriptionId);
-
-            return (
-              <Box
-                onClick={() => {
-                  if (!item.read) {
-                    markEmailAsRead({ variables: { id: item.id } });
-                  }
-                }}
-                background={(itemSelected || !item.read ? 'light-1' : undefined)}
-                key={item.id}
-                border={{ side: 'left', size: '3px', color: itemSelected || !item.read ? 'brand' : 'transparent' }}
-                pad="small"
+        <>
+          {!emailsList.length ? (
+            <Box
+              flex
+              align="center"
+              pad={{ vertical: 'large' }}
+              justify="center"
+              alignContent="center"
+            >
+              <Image src="/eyes2.png" width="40%" />
+              <Heading level="6">Waiting for emails</Heading>
+            </Box>
+          ) : (
+              <InfiniteScroll
+                items={emailsList}
+              // onMore={() => fetchMore({})}
               >
-                {!subscription && (
-                  <Box flex direction="row" align="center" margin={{ bottom: 'small' }}>
-                    <Avatar
-                      margin={{ right: 'xsmall' }}
-                      size="small"
-                      src={itemSubscription.iconUrl}
-                    />
-                    <Box flex>
-                      <Text size="small">{itemSubscription.name}</Text>
-                    </Box>
-                  </Box>
+                {(email: Email) => (
+                  <EmailListItem
+                    key={email.id}
+                    email={email}
+                    // this is a bit confusing. It needs to be renamed better
+                    // if the list is loaded while viewing a specific subsciption
+                    // then don't pass it through to the card as the subscription
+                    // card is shown above the list. If it is not passed and we are
+                    // looking at generic list (unread/today etc) then provide the
+                    // subscription so the ui can display the subscription inline in
+                    // the card.
+                    subscription={subscription ? undefined : subscriptionsList[email.subscriptionId]}
+                    selected={selectedEmail?.id === email.id}
+                    onClick={(email: Email) => onEmailClick(email)}
+                  />
                 )}
-                <Box alignSelf="start">
-                  <Text size="small">
-                    {moment(item.receivedAt).calendar({
-                      sameDay: 'h:mm a',
-                      lastDay: '[Yesterday at ] h:mm a',
-                      lastWeek: 'dddd',
-                      sameElse: 'MMM DD Do'
-                    })}
-                  </Text>
-
-                  <Text size="medium" weight="bold">{item.subject}</Text>
-
-                  <Box flex direction="row" margin={{ top: 'small' }}>
-                    {moment(item.receivedAt).isAfter(moment().subtract(6, 'hours')) && <Pill label="New" background="#41ae76" margin={{ right: 'xsmall' }} />}
-                    {!item.read && <Pill label="Unread" background="brand" />}
-                  </Box>
-                </Box>
-              </Box>
-            )
-          }}
-        </List>
-      )
-      }
-    </Box>
+              </InfiniteScroll>
+            )}
+        </>
+      )}
+    </Box >
   )
 };
 

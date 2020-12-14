@@ -1,4 +1,6 @@
-import { grommet, TextAreaProps, ThemeType } from 'grommet';
+import { grommet
+  // , TextAreaProps, ThemeType
+ } from 'grommet';
 import { FormUp as FormUpIcon, FormDown as FormDownIcon } from 'grommet-icons';
 import { deepMerge } from 'grommet/utils';
 // f9f9fb

@@ -5,9 +5,15 @@ interface Config {
   appUrl: string;
   environment: 'production' | 'test' | 'development'
   Amplify: {
-    API: { [key: string]: any },
-    AppSync: { [key: string]: any },
-    Auth: { [key: string]: any }
+    API: { [key: string]: any };
+    AppSync: { [key: string]: any };
+    Auth: { [key: string]: any };
+    Storage: { [key: string]: any };
+  },
+  extensions: {
+    chrome: {
+      id: string;
+    }
   }
 }
 
@@ -17,6 +23,13 @@ const Config: Config = {
   environment: process.env.NODE_ENV || 'development',
   Amplify: {
     API: {},
+    Storage: {
+      AWSS3: {
+        bucket: 'dev-readthenews-processed-email',
+        // identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:26f56b06-e185-4da4-892c-75af871d7134',
+        region: process.env.REACT_APP_AmplifyAuthRegion || 'us-east-1'
+      }
+    },
     AppSync: {
       endpoint: 'https://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql',
       ws: 'wss://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql'
@@ -33,7 +46,12 @@ const Config: Config = {
         redirectSignOut: process.env.REACT_APP_AmplifyOauthRedirectSignOutUrl || 'http://localhost:3000/signout',
         responseType: 'code',
         federationTarget: 'Google',
-      }
+      },
+    }
+  },
+  extensions: {
+    chrome: {
+      id: process.env.REACT_APP_ExtensionsChromeId || 'ngffffpnaojkieodkhefemdopebggjip',
     }
   }
 }

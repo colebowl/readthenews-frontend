@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { Box } from 'grommet';
 import { gql } from '@apollo/client';
 
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
@@ -10,7 +9,7 @@ interface Props { }
 
 const query = gql`
   query GetEmailsOfSubscription($startDate: String!) {
-    listEmails(filter: { receivedAt: { gt: $startDate } }) {
+    listEmails(filter: { receivedAt: { gt: $startDate } }, limit: 50) {
       items {
         body
         fromAddress
@@ -27,13 +26,11 @@ const query = gql`
 const EmailsReceivedToday: React.FC<Props> = () => {
   const { setSelectedEmail } = useSelectedEmail();
   return (
-    <Box>
-      <EmailsList
-        onEmailClick={setSelectedEmail}
-        query={query}
-        queryVars={{ variables: { startDate: moment().startOf('day').format() } }}
-      />
-    </Box>
+    <EmailsList
+      onEmailClick={setSelectedEmail}
+      query={query}
+      queryVars={{ variables: { startDate: moment().startOf('week').format() } }}
+    />
   )
 };
 

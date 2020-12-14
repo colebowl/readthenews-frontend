@@ -1,18 +1,13 @@
 import React from 'react';
-import { Avatar, Box, Heading, List, Text } from 'grommet';
-import { gql, useQuery } from '@apollo/client';
-import moment from 'moment';
+import { gql } from '@apollo/client';
 
 import EmailsList from './EmailsList';
 import useSelectedSubscription from '../../hooks/subscriptions/useSelectedSubscription';
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
 
-interface Props {
-}
-
 const query = gql`
   query GetEmailsOfSubscription($subscriptionId: String!) {
-    listEmails(id: $subscriptionId) {
+    listEmails(id: $subscriptionId, limit: 50) {
       items {
         body
         fromAddress
@@ -25,20 +20,18 @@ const query = gql`
   }
 `;
 
-const SubscriptionsList: React.FC<Props> = () => {
+const SubscriptionsList: React.FC = () => {
   const { selectedSubscription } = useSelectedSubscription();
   const { setSelectedEmail } = useSelectedEmail();
   const subscriptionId = selectedSubscription ? selectedSubscription.id : '';
 
   return (
-    <Box>
       <EmailsList
         subscription={selectedSubscription}
         onEmailClick={setSelectedEmail}
         query={query}
         queryVars={{ variables: { subscriptionId } }}
       />
-    </Box>
   )
 };
 

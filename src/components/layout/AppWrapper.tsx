@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Main, Box } from 'grommet';
-
-import AppBar from './AppBar';
+// import AppBar from './AppBar';
 
 interface Props { }
 const AppWrapper: React.FC<Props> = (props) => {

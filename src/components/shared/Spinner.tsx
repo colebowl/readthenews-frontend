@@ -1,13 +1,13 @@
 import React from "react";
 import { Box } from "grommet";
-
+import theme from '../../theme';
 const spinning = (
   <svg
     version="1.1"
     viewBox="0 0 32 32"
     width="28px"
     height="28px"
-    fill="#7D4CDB"
+    fill={theme.global.colors.brand}
   >
     <path
       opacity=".25"
@@ -27,6 +27,7 @@ const spinning = (
 );
 
 export const Spinner = () => (
+
   <Box align="center" justify="center" margin="medium">
     {spinning}
   </Box>

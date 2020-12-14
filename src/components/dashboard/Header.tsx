@@ -44,20 +44,22 @@ const Header: React.FC = () => {
           { label: 'Signout', onClick: handleSignoutClick }
         ]}
       >
-        <Box flex direction="row" align="center" justify="center">
-          <Avatar
-            size="small"
-            margin={{ right: 'small' }}
-            src={profile ? profile.picture : 'https://ui-avatars.com/api/?name=R'}
-          />
-          {' '}
-          <Heading margin="none" level="6" >
-            {profile ? `${profile.given_name} ${profile.family_name}` : 'User'}
-          </Heading>
-          <Box margin={{ left: 'small' }}>
-            <FormDownIcon color="brand" />
+        {() => (
+          <Box flex direction="row" align="center" justify="center">
+            <Avatar
+              size="small"
+              margin={{ right: 'small' }}
+              src={profile ? profile.picture : 'https://ui-avatars.com/api/?name=R'}
+            />
+            {' '}
+            <Heading margin="none" level="6" >
+              {profile ? `${profile.given_name} ${profile.family_name}` : 'User'}
+            </Heading>
+            <Box margin={{ left: 'small' }}>
+              <FormDownIcon color="brand" />
+            </Box>
           </Box>
-        </Box>
+        )}
       </Menu>
     </GHeader>
   );

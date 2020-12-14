@@ -2,27 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { Accordion, AccordionPanel, Avatar, Box, Text } from 'grommet';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Subscription, SubscriptionsList } from '../../shared/types';
 
 import Spinner from '../shared/Spinner';
 import useSelectedSubscription from '../../hooks/subscriptions/useSelectedSubscription';
 
-export const listSubscriptionsQuery = gql`
-  query GetMySubscriptions {
-    listSubscriptions {
-      items {
-        id
-        emailAddress
-        registeredAt
-        status
-        name
-        iconUrl
-        url
-      }
-    }
-  }
-`;
+import { listSubscriptionsQuery} from '../../graphql/queries';
 
 const List = styled.ul`
   margin-top: 0;

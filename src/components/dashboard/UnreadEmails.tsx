@@ -1,14 +1,12 @@
 import React from 'react';
-import { Box } from 'grommet';
 import { gql } from '@apollo/client';
 
 import EmailsList from './EmailsList';
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
 
-
 const query = gql`
   query GetEmailsOfSubscription {
-    listEmails(filter: { read: { eq: false }}) {
+    listEmails(filter: { read: { eq: false }}, limit: 50) {
       items {
         body
         fromAddress
@@ -22,17 +20,14 @@ const query = gql`
   }
 `;
 
-
 const SubscriptionsList: React.FC = () => {
   const { setSelectedEmail } = useSelectedEmail();
 
   return (
-    <Box>
-      <EmailsList
-        onEmailClick={setSelectedEmail}
-        query={query}
-      />
-    </Box>
+    <EmailsList
+      onEmailClick={setSelectedEmail}
+      query={query}
+    />
   )
 };
 

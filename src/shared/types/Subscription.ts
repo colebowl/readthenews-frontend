@@ -21,3 +21,5 @@ export type SubscriptionsList = {
     items: Subscription[];
   }
 }
+
+export type SubscriptionDictonary = { [key: string]: Subscription };

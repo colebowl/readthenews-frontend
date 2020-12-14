@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, BoxProps, Button, Heading } from 'grommet';
-import { More } from 'grommet-icons';
+import { Box, BoxProps} from 'grommet';
 
 interface Props extends BoxProps {
   children: any;

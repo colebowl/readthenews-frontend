@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { CognitoUser } from '@aws-amplify/auth';
 import { Hub, Auth } from '../../shared/amplify';
+import Config from 'Config';
 
 const useAmplifyAuth = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const useAmplifyAuth = () => {
         const userProfile = res.reduce<{ [key: string]: any }>((usr, attr) => {
           const nextUsr = usr;
           if (attr.getName() === 'sub') {
-            nextUsr.userId = attr.getValue()
+            nextUsr.id = `USER#${attr.getValue()}`;
           } else {
             nextUsr[attr.getName()] = attr.getValue();
           }
@@ -39,6 +40,7 @@ const useAmplifyAuth = () => {
 
   React.useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
+      console.log('{ event, data }:', { event, data })
       switch (event) {
         case 'signIn':
           handleUserLogin(data);
@@ -58,21 +60,29 @@ const useAmplifyAuth = () => {
     Auth.currentAuthenticatedUser()
       .then(async user => {
         if (user) {
+          console.log('user:', user)
           //Get the current session from aws amplify
           const session = await Auth.currentSession();
+          console.log('session:', session)
           if (chrome) {
             chrome.runtime.sendMessage(
-              'ngffffpnaojkieodkhefemdopebggjip',
+              Config.extensions.chrome.id,
               { session },
-              function (response: any) {
-                console.log('got a responseresponse:', response)
-              });
+              (response: any) => console.log('got a response', response)
+            );
           }
 
           handleUserLogin(user);
         }
       }).catch(error => {
         console.log('currentAuthenticatedUsererror:', error);
+
+        if (chrome) {
+          chrome.runtime.sendMessage(
+            Config.extensions.chrome.id,
+            {}
+          );
+        }
         setInitilized(true);
       })
     // eslint-disable-next-line
