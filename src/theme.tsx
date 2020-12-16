@@ -17,6 +17,9 @@ const theme/*: ThemeType */ = {
     }
   },
   button: {
+    primary: {
+      color: 'white'
+    }
     // color: 'blue'
   },
   list: {

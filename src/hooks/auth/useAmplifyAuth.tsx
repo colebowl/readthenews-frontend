@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux';
 import { CognitoUser } from '@aws-amplify/auth';
 import { Hub, Auth } from '../../shared/amplify';
 import Config from 'Config';
+import { useHistory } from 'react-router-dom';
 
 const useAmplifyAuth = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [initilized, setInitilized] = React.useState(false);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -27,6 +29,7 @@ const useAmplifyAuth = () => {
           return nextUsr;
         }, {})
         resolve(userProfile);
+
       })
     });
 
@@ -35,11 +38,17 @@ const useAmplifyAuth = () => {
       payload: user,
     });
 
+    if (!(user as any)['custom:subdomain']) {
+      history.push('/welcome')
+    }
+
     setInitilized(true);
   }
 
   React.useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }) => {
+    Hub.listen('auth', (evt) => {
+      console.log('evt:', evt)
+      const { payload: { event, data } } = evt;
       console.log('{ event, data }:', { event, data })
       switch (event) {
         case 'signIn':

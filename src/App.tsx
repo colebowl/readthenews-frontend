@@ -11,6 +11,7 @@ import AuthenticatedRoute from './components/auth/AuthenticatedRoute';
 import Dashboard from './components/dashboard';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Welcome from './components/welcome';
 
 import { RootState } from './store';
 import theme from './theme';
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/login" component={Login} />
                 <Redirect path="/signout" to="/" />
                 <Redirect path="/" exact to="/today" />
+                <AuthenticatedRoute path="/welcome" component={Welcome} />
                 <AuthenticatedRoute path="*" component={Dashboard} />
               </Switch>
             ) : (<h1>LOADING</h1>)}

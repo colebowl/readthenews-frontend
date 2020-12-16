@@ -6,6 +6,7 @@ import { useToasts } from 'react-toast-notifications';
 
 import Spinner from '../shared/Spinner';
 import EmailListItem from './EmailListItem';
+import CopyableText from '../shared/CopyableText';
 
 import { Email, Subscription, SubscriptionDictonary } from '../../shared/types';
 import { listSubscriptionsQuery } from '../../graphql/queries';
@@ -87,20 +88,25 @@ const EmailsList: React.FC<Props> = (props) => {
           flex
           margin={{ horizontal: 'small' }}
           border={{ side: 'horizontal', color: "light-2" }}
-          pad={{ bottom: 'medium' }}
+          pad={{ horizontal: 'small', vertical: 'medium' }}
         >
-          <Box flex direction="row" align="center">
+          <Box flex direction="row" align="center" margin={{ bottom: 'medium' }}>
             <Avatar
               margin={{ right: 'small' }}
               size="medium"
               src={subscription.iconUrl || `https://ui-avatars.com/api/?name=${subscription.name}`}
             />
-            < Box flex >
-              <Heading level="6">{subscription.name}</Heading>
-            </Box >
-          </Box >
+            <Box flex>
+              <Heading level="6" margin="none">{subscription.name}</Heading>
+              <CopyableText
+                textProps={{ size: 'small' }}
+                text={subscription.emailAddress}
+               />
+              {/* <Text size="small">{subscription.emailAddress}</Text> */}
+            </Box>
+          </Box>
           <Text size="small">Subscribed since: {moment(subscription.registeredAt).format('MMM YYYY')}</Text>
-        </Box >
+        </Box>
       )}
 
       {loading ? <Spinner /> : (
