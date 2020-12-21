@@ -64,7 +64,6 @@ const ProfileForm: React.FC<Props> = (props) => {
       }) => (
         <form
           onSubmit={event => {
-            console.log('values', values)
             event.preventDefault();
             setSubmitted(true)
             handleSubmit();

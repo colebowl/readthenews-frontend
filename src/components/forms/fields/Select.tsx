@@ -27,7 +27,6 @@ const Select: React.FC<Props> = (props) => {
     required,
     value
   } = props;
-  console.log('value:', value)
 
   return (
     <FormField

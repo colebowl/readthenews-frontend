@@ -17,3 +17,25 @@ export const onboardingSetUserProfile = gql`
     }
   }
 `
+
+export const createSubscription = gql`
+  mutation($input: CreateSubscriptionInput!) {
+    createSubscription(input: $input) {
+        id
+        emailAddress
+        registeredAt
+        status
+        iconUrl
+        name
+        url
+    }
+  }
+`;
+
+export const deleteSubscription = gql`
+  mutation($input: DeleteSubscriptionInput!) {
+    deleteSubscription(input: $input) {
+        id
+    }
+  }
+`;

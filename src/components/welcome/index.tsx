@@ -10,7 +10,7 @@ const Welcome: React.FC<Props> = (props) => {
   const { profile } = useProfile();
   const history = useHistory();
 
-  const [visiblePage, setVisiblePage] = React.useState<'profile' | 'payment' | 'welcome'>('profile')
+  const [visiblePage, setVisiblePage] = React.useState<'profile' | 'payment' | 'welcome'>('welcome')
 
   const titles = {
     profile: 'Complete your profile',
@@ -34,8 +34,6 @@ const Welcome: React.FC<Props> = (props) => {
                   agreeToTerms: false
                 }}
                 onSubmit={(input: ProfileFormFields) => {
-                  console.log('input:', input)
-
                   setVisiblePage('payment');
                 }} />
             </Box>
@@ -57,9 +55,15 @@ const Welcome: React.FC<Props> = (props) => {
           )}
           {visiblePage === 'welcome' && (
             <Box animation="fadeIn" style={{ maxWidth: 500 }}>
-              <Heading level="5">thru currently requires the thru Chrome extension</Heading>
+              <Heading level="3">Welcome to thru<span style={{ color: '#de8626' }}>.</span></Heading>
+              <Text margin={{ 'bottom': 'medium' }}>Thank you for being one of the very first people to try out <b>thru</b>!</Text>
+              <Text margin={{ 'bottom': 'medium' }}><b>thru<span style={{ color: '#de8626' }}>.</span></b> is in public beta and we are still working out some of the kinks. If you notice something wonky or have feedback, drop us at line to <Anchor href="mailto:beta@cole.thru.email">beta@cole.thru.email</Anchor></Text>
+              <Text margin={{ 'bottom': 'medium' }}>Thanks,</Text>
+              <Text margin={{ 'bottom': 'medium' }}>Cole - thru<span style={{ color: '#de8626' }}>.</span> founder</Text>
+
+              {/* <Heading level="5">thru currently requires the thru Chrome extension</Heading>
               <Text margin={{ 'bottom': 'medium' }}>In order to be able to create new thru subscriptions, you will need to download the Chrome extension.</Text>
-              <Anchor href="https://chrome.google.com/webstore/category/extensions?hl=en" target="_blank">Download the extension</Anchor>
+              <Anchor href="https://chrome.google.com/webstore/category/extensions?hl=en" target="_blank">Download the extension</Anchor> */}
 
               <Box
                 tag="footer"

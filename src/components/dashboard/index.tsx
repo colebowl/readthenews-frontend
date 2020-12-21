@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
       <Grid
         fill
         style={{ minHeight: '100vh' }}
-        columns={['25%', '30%', '45%']}
+        columns={['20%', '30%', '50%']}
         rows={['70px', 'flex']}
         areas={[
           { name: 'header', start: [0, 0], end: [2, 0] },
@@ -32,11 +32,12 @@ const Dashboard: React.FC = () => {
         <SideBar />
         <Box
           overflow={{ vertical: 'auto' }}
-          background={{ dark: 'dark-6' }}
-          border={{
-            color: { dark: 'dark-4', light: 'light-4' },
-            side: 'right'
-          }}
+          // background={{ dark: 'dark-6' }}
+          // border={{
+
+          //   color: { dark: 'dark-4', light: 'light-4' },
+          //   side: 'right'
+          // }}
           gridArea="center"
         >
 

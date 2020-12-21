@@ -1,6 +1,7 @@
-import { grommet
+import {
+  grommet
   // , TextAreaProps, ThemeType
- } from 'grommet';
+} from 'grommet';
 import { FormUp as FormUpIcon, FormDown as FormDownIcon } from 'grommet-icons';
 import { deepMerge } from 'grommet/utils';
 // f9f9fb
@@ -19,21 +20,36 @@ const theme/*: ThemeType */ = {
   button: {
     primary: {
       color: 'white'
-    }
+    },
+    border: {
+      radius: '5px'
+    },
     // color: 'blue'
   },
   list: {
     focus: {
-      border: { color: 'transparent'}
+      border: { color: 'transparent' }
     },
   },
   global: {
     focus: {
-      border: { color: 'transparent'}
+      border: { color: 'transparent' }
     },
     colors: {
       brand: '#de8626',
-
+      // blackbird site
+      yellow: '#f0e74e',
+      green: '#cbe5d2',
+      // // blue: '#acc6d7',
+      // lightblue: '#4c5e91',
+      // red: '#ef7c72',
+      // https://www.instagram.com/p/CIiJBGqhk69/
+      rose: '#fdd1f2',
+      salmon: '#ff7882',
+      perane: '#a5b0f7',
+      tangerine: '#ffae16',
+      sandwisp: '#f3e7a5',
+      riptide: '#91dcdc',
     },
     control: {
       // background: 'dark-3',

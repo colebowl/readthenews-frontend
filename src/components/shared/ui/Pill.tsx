@@ -12,7 +12,7 @@ type Props = {
 const Pill: React.FC<Props> = (props) => {
   const { background, textColor, label, margin } = props;
   return (
-    <Box elevation="xsmall" background={background} round align="center" margin={margin} pad={{ horizontal: 'small' }}>
+    <Box elevation="xsmall" background={background} round="xsmall" align="center" margin={margin} pad={{ horizontal: 'small' }}>
       <Text size="xsmall" color={textColor} weight="bold">{label}</Text>
     </Box>
   );

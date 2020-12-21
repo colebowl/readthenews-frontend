@@ -11,6 +11,7 @@ export const listSubscriptionsQuery = gql`
         name
         iconUrl
         url
+        color
       }
     }
   }

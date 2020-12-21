@@ -25,41 +25,47 @@ const SideBar: React.FC<Props> = () => {
     <Box
       gridArea="left"
       flex="grow"
-      pad="small"
+      // pad="small"
       background={{ dark: 'dark-2', light: 'light-1' }}
       fill
-      border={{
-        color: { 'dark': 'dark-3', light: 'light-4' },
-        side: 'right'
-      }}
+    // border={{
+    //   color: { 'dark': 'dark-3', light: 'light-4' },
+    //   side: 'right'
+    // }}
     >
       <Nav margin={{ top: "medium", horizontal: "small" }}>
-        <AnchorLink
-          onClick={handleLinkClick}
-          to="/unread"
-          label="Unread"
-          icon={<InboxIcon />}
-          size="small"
-          color={{
-            dark: `light-${location.pathname === '/unread' ? '2' : '6'}`,
-            light: `dark-${location.pathname === '/unread' ? '2' : '6'}`
-          }}
-        />
-
-        <AnchorLink
-          onClick={handleLinkClick}
-          to="/today"
-          label="Today"
-          icon={<CalendarIcon />}
-          size="small"
-          color={{
-            dark: `light-${location.pathname === '/today' ? '2' : '6'}`,
-            light: `dark-${location.pathname === '/today' ? '2' : '6'}`
-          }}
-        />
+        <Box background={location.pathname === '/unread' ? 'light-3' : undefined} pad="small" round="xsmall">
+          <AnchorLink
+            onClick={handleLinkClick}
+            to="/unread"
+            label="Unread"
+            margin={{ bottom: 'none' }}
+            icon={<InboxIcon />}
+            size="small"
+            color={{
+              dark: `light-${location.pathname === '/unread' ? '2' : '6'}`,
+              light: `dark-${location.pathname === '/unread' ? '2' : '6'}`
+            }}
+          />
+        </Box>
+        <Box background={location.pathname === '/today' ? 'light-3' : undefined} pad="small" round="xsmall">
+          <AnchorLink
+            onClick={handleLinkClick}
+            margin={{ bottom: 'none' }}
+            to="/today"
+            label="Today"
+            icon={<CalendarIcon />}
+            size="small"
+            color={{
+              dark: `light-${location.pathname === '/today' ? '2' : '6'}`,
+              light: `dark-${location.pathname === '/today' ? '2' : '6'}`
+            }}
+          />
+        </Box>
       </Nav>
-
-      <SubscriptionsAccordion />
+      <Box fill pad="small">
+        <SubscriptionsAccordion />
+      </Box>
     </Box>
   )
 };

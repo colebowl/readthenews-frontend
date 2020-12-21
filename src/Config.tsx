@@ -18,27 +18,27 @@ interface Config {
 }
 
 const Config: Config = {
-  appName: 'Starter',
+  appName: 'thru',
   appUrl: process.env.REACT_APP_AppUrl || 'http://localhost:3000/',
   environment: process.env.NODE_ENV || 'development',
   Amplify: {
     API: {},
     Storage: {
       AWSS3: {
-        bucket: 'dev-readthenews-processed-email',
-        // identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:26f56b06-e185-4da4-892c-75af871d7134',
+        bucket: process.env.REACT_APP_S3EmailBucket  || 'dev-readthenews-processed-email',
+        // identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:f116f18a-eb3e-474e-87ac-4d8e0b558954',
         region: process.env.REACT_APP_AmplifyAuthRegion || 'us-east-1'
       }
     },
     AppSync: {
-      endpoint: 'https://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql',
-      ws: 'wss://hep3su3ozfdtvalamorf6j7qnq.appsync-api.us-east-1.amazonaws.com/graphql'
+      endpoint: `https://${process.env.REACT_APP_GraphQLEndpoint || 'zq2wc5kc7ndqxd7u3onmxpahnu.appsync-api.us-east-1.amazonaws.com/graphql'}`,
+      ws: `wss://${process.env.REACT_APP_GraphQLEndpoint || 'zq2wc5kc7ndqxd7u3onmxpahnu.appsync-api.us-east-1.amazonaws.com/graphql'}`,
     },
     Auth: {
       region: process.env.REACT_APP_AmplifyAuthRegion || 'us-east-1',
-      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '5nqh1btgt5frfbl9j6tiugj35d',
-      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_hRPaZKP9Q',
-      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:26f56b06-e185-4da4-892c-75af871d7134',
+      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '7ffrdh26nrqn1fio0qbdt1cns7',
+      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_eRAC5lnIb',
+      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:f116f18a-eb3e-474e-87ac-4d8e0b558954',
       oauth: {
         domain: process.env.REACT_APP_AmplifyOauthDomain || 'dev-readthenews.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],

@@ -17,7 +17,6 @@ const AppBar: React.FC = () => {
 
   const [menuOpen, setMenuOpen] = React.useState(false);
   const handleSignoutClick = () => {
-    console.log('dispatch sisgniout')
     setMenuOpen(false);
     dispatch(AuthState.actions.signOut());
   }

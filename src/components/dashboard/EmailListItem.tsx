@@ -1,12 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { useMutation } from '@apollo/client';
-import { Avatar, Box, Text } from 'grommet';
+import { Box, Text } from 'grommet';
 
 import { Email, Subscription } from '../../shared/types';
 import { markEmailReadQuery } from '../../graphql/mutations';
 
 import Pill from '../shared/ui/Pill';
+import Avatar from '../shared/Avatar';
 
 type Props = {
   email: Email;
@@ -38,7 +39,7 @@ const EmailListItem: React.FC<Props> = (props) => {
       key={email.id}
       border={[
         { side: 'horizontal', color: "light-2" },
-        { side: 'left', size: '3px', color: !email.read ? 'brand' : 'transparent' }
+        { side: 'left', size: '5px', color: selected || !email.read ? 'brand' : 'transparent' }
       ]}
       pad="small"
     >
@@ -47,7 +48,9 @@ const EmailListItem: React.FC<Props> = (props) => {
           <Avatar
             margin={{ right: 'xsmall' }}
             size="small"
-            src={subscription.iconUrl}
+            color={subscription.color}
+            name={subscription.name}
+            url={subscription.iconUrl}
           />
           <Box flex>
             <Text size="small">{subscription.name}</Text>

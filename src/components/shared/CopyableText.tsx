@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Text, TextProps } from 'grommet';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import styled from 'styled-components';
@@ -31,7 +30,7 @@ const CopyableText: React.FC<Props> = ({ text, textProps }) => {
         <HoverableBox>
           <CopyToClipboard text={text}
             onCopy={() => setCopied(true)}>
-            <Text {...textProps} >
+            <Text {...textProps}>
               {text}
             </Text>
           </CopyToClipboard>

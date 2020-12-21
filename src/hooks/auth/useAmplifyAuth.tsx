@@ -47,9 +47,7 @@ const useAmplifyAuth = () => {
 
   React.useEffect(() => {
     Hub.listen('auth', (evt) => {
-      console.log('evt:', evt)
       const { payload: { event, data } } = evt;
-      console.log('{ event, data }:', { event, data })
       switch (event) {
         case 'signIn':
           handleUserLogin(data);
@@ -59,7 +57,7 @@ const useAmplifyAuth = () => {
           setIsAuthenticated(false);
           break;
         case 'customOAuthState':
-          console.log('customOAuthState:', data);
+          // console.log('customOAuthState:', data);
           break;
         default:
           break;
@@ -69,22 +67,22 @@ const useAmplifyAuth = () => {
     Auth.currentAuthenticatedUser()
       .then(async user => {
         if (user) {
-          console.log('user:', user)
+          // console.log('user:', user)
           //Get the current session from aws amplify
           const session = await Auth.currentSession();
-          console.log('session:', session)
+          // console.log('session:', session)
           if (chrome) {
             chrome.runtime.sendMessage(
               Config.extensions.chrome.id,
               { session },
-              (response: any) => console.log('got a response', response)
+              (response: any) => true // console.log('got a response', response)
             );
           }
 
           handleUserLogin(user);
         }
       }).catch(error => {
-        console.log('currentAuthenticatedUsererror:', error);
+        // console.log('currentAuthenticatedUsererror:', error);
 
         if (chrome) {
           chrome.runtime.sendMessage(

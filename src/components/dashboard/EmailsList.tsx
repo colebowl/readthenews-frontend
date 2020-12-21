@@ -1,12 +1,11 @@
 import React from 'react';
-import { Image, Avatar, Box, InfiniteScroll, Heading, Text, Button } from 'grommet';
+import { Box, InfiniteScroll } from 'grommet';
 import { DocumentNode, useQuery, OperationVariables } from '@apollo/client';
-import moment from 'moment';
 import { useToasts } from 'react-toast-notifications';
 
 import Spinner from '../shared/Spinner';
 import EmailListItem from './EmailListItem';
-import CopyableText from '../shared/CopyableText';
+import NoEmailsMessage from './emails-list/NoEmailsMessage';
 
 import { Email, Subscription, SubscriptionDictonary } from '../../shared/types';
 import { listSubscriptionsQuery } from '../../graphql/queries';
@@ -14,6 +13,7 @@ import { subscriptionQuery } from '../../graphql/subscriptions';
 
 import useSelectedEmail from '../../hooks/emails/useSelectedEmail';
 import useProfile from 'hooks/auth/useProfile';
+import SubscriptionHeader from './emails-list/SubscriptionHeader';
 
 interface Props {
   subscription?: Subscription;
@@ -44,8 +44,6 @@ const EmailsList: React.FC<Props> = (props) => {
         {}
       ) as SubscriptionDictonary;
   }, [allSubscrpitions]);
-
-
 
   React.useEffect(() => {
     if (Object.keys(subscriptionsList).length) {
@@ -83,70 +81,39 @@ const EmailsList: React.FC<Props> = (props) => {
 
   return (
     <Box flex={false} overflow={{ vertical: 'auto' }}>
-      {subscription && (
-        <Box
-          flex
-          margin={{ horizontal: 'small' }}
-          border={{ side: 'horizontal', color: "light-2" }}
-          pad={{ horizontal: 'small', vertical: 'medium' }}
-        >
-          <Box flex direction="row" align="center" margin={{ bottom: 'medium' }}>
-            <Avatar
-              margin={{ right: 'small' }}
-              size="medium"
-              src={subscription.iconUrl || `https://ui-avatars.com/api/?name=${subscription.name}`}
-            />
-            <Box flex>
-              <Heading level="6" margin="none">{subscription.name}</Heading>
-              <CopyableText
-                textProps={{ size: 'small' }}
-                text={subscription.emailAddress}
-               />
-              {/* <Text size="small">{subscription.emailAddress}</Text> */}
-            </Box>
-          </Box>
-          <Text size="small">Subscribed since: {moment(subscription.registeredAt).format('MMM YYYY')}</Text>
-        </Box>
-      )}
+      {subscription && <SubscriptionHeader subscription={subscription} />}
 
-      {loading ? <Spinner /> : (
-        <>
-          {!emailsList.length ? (
-            <Box
-              flex
-              align="center"
-              pad={{ vertical: 'large' }}
-              justify="center"
-              alignContent="center"
-            >
-              <Image src="/eyes2.png" width="40%" />
-              <Heading level="6">Waiting for emails</Heading>
-            </Box>
-          ) : (
-              <InfiniteScroll
-                items={emailsList}
-              // onMore={() => fetchMore({})}
-              >
-                {(email: Email) => (
-                  <EmailListItem
-                    key={email.id}
-                    email={email}
-                    // this is a bit confusing. It needs to be renamed better
-                    // if the list is loaded while viewing a specific subsciption
-                    // then don't pass it through to the card as the subscription
-                    // card is shown above the list. If it is not passed and we are
-                    // looking at generic list (unread/today etc) then provide the
-                    // subscription so the ui can display the subscription inline in
-                    // the card.
-                    subscription={subscription ? undefined : subscriptionsList[email.subscriptionId]}
-                    selected={selectedEmail?.id === email.id}
-                    onClick={(email: Email) => onEmailClick(email)}
-                  />
-                )}
-              </InfiniteScroll>
-            )}
-        </>
-      )}
+      {
+        loading ? <Spinner /> : (
+          <>
+            {!emailsList.length
+              ? <NoEmailsMessage />
+              : (
+                <InfiniteScroll
+                  items={emailsList}
+                // onMore={() => fetchMore({})}
+                >
+                  {(email: Email) => (
+                    <EmailListItem
+                      key={email.id}
+                      email={email}
+                      // this is a bit confusing. It needs to be renamed better
+                      // if the list is loaded while viewing a specific subsciption
+                      // then don't pass it through to the card as the subscription
+                      // card is shown above the list. If it is not passed and we are
+                      // looking at generic list (unread/today etc) then provide the
+                      // subscription so the ui can display the subscription inline in
+                      // the card.
+                      subscription={subscription ? undefined : subscriptionsList[email.subscriptionId]}
+                      selected={selectedEmail?.id === email.id}
+                      onClick={(email: Email) => onEmailClick(email)}
+                    />
+                  )}
+                </InfiniteScroll>
+              )}
+          </>
+        )
+      }
     </Box >
   )
 };
