@@ -48,7 +48,7 @@ const SubscriptionsAccordion: React.FC<Props> = () => {
   const { loading, data } = useQuery<SubscriptionsList>(listSubscriptionsQuery);
   console.log('data:', data)
 
-  if (data) {
+  if (data && data.listSubscriptions) {
     data.listSubscriptions.items.forEach(it => {
       if (it.color) console.log(it.name, 'has a color => ', it.color)
     })
@@ -60,13 +60,17 @@ const SubscriptionsAccordion: React.FC<Props> = () => {
     history.push(`/subscription/${slug}`);
   };
 
+  const items = data && data.listSubscriptions ? data.listSubscriptions.items : [];
   return (
     <>
       <Heading level="5" margin={{ left: 'small' }}>My Trays</Heading>
       {loading ? <Spinner /> : (
         <Box height="auto" fill overflow="auto">
           <List>
-            {data && data.listSubscriptions.items.map((subscription) => (
+            {items.length === 0 && (
+              <Text margin={{left: 'small', top: 'none'}} size="small">You don't have any trays</Text>
+            )}
+            {items.map((subscription) => (
               <ListItem
                 key={subscription.id}
                 onClick={() => setSelected(subscription)}

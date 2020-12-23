@@ -31,16 +31,16 @@ const Config: Config = {
       }
     },
     AppSync: {
-      endpoint: `https://${process.env.REACT_APP_GraphQLEndpoint || 'zq2wc5kc7ndqxd7u3onmxpahnu.appsync-api.us-east-1.amazonaws.com/graphql'}`,
-      ws: `wss://${process.env.REACT_APP_GraphQLEndpoint || 'zq2wc5kc7ndqxd7u3onmxpahnu.appsync-api.us-east-1.amazonaws.com/graphql'}`,
+      endpoint: `https://${process.env.REACT_APP_GraphQLEndpoint || 'zlimgx7eozb6pkee273k6emb3e.appsync-api.us-east-1.amazonaws.com/graphql'}`,
+      ws: `wss://${process.env.REACT_APP_GraphQLEndpoint || 'zlimgx7eozb6pkee273k6emb3e.appsync-api.us-east-1.amazonaws.com/graphql'}`,
     },
     Auth: {
       region: process.env.REACT_APP_AmplifyAuthRegion || 'us-east-1',
-      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '7ffrdh26nrqn1fio0qbdt1cns7',
-      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_eRAC5lnIb',
-      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:f116f18a-eb3e-474e-87ac-4d8e0b558954',
+      userPoolWebClientId: process.env.REACT_APP_AmplifyAuthUserPoolWebClientId || '50bgd6onql83jqjmjlq3qfmtnc',
+      userPoolId: process.env.REACT_APP_AmplifyAuthUserPoolId || 'us-east-1_dQG6VTtBt',
+      identityPoolId: process.env.REACT_APP_AmplifyAuthIdenitityPoolId || 'us-east-1:a5e6ea25-9295-4aa3-8bb1-0900930647fa',
       oauth: {
-        domain: process.env.REACT_APP_AmplifyOauthDomain || 'dev-readthenews.auth.us-east-1.amazoncognito.com',
+        domain: process.env.REACT_APP_AmplifyOauthDomain || 'dev-thru.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
         redirectSignIn: process.env.REACT_APP_AmplifyOauthRedirectSignInUrl || 'http://localhost:3000/',
         redirectSignOut: process.env.REACT_APP_AmplifyOauthRedirectSignOutUrl || 'http://localhost:3000/signout',

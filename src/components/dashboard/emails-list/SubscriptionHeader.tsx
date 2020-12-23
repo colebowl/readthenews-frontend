@@ -7,9 +7,14 @@ import Avatar from '../../shared/Avatar';
 import CopyableText from '../../shared/CopyableText';
 import ModalWindow from '../../shared/ModalWindow';
 
-import { Subscription } from '../../../shared/types';
+import useToast from '../../../hooks/shared/useToast';
+import { Subscription, SubscriptionsList } from '../../../shared/types';
 import { deleteSubscription } from '../../../graphql/mutations';
+import { listSubscriptionsQuery } from '../../../graphql/queries';
+
+
 import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   subscription: Subscription;
@@ -17,6 +22,9 @@ type Props = {
 
 const SubscriptionHeader: React.FC<Props> = (props) => {
   const { subscription } = props;
+  const history = useHistory();
+  const toasts = useToast();
+
   const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
 
   const [doDeleteSubscription, { error, loading: deleteInProgress }] = useMutation(deleteSubscription);
@@ -26,9 +34,25 @@ const SubscriptionHeader: React.FC<Props> = (props) => {
   }
 
   const handleDeleteClick = async () => {
-    console.log('handleDeleteClick:', subscription.id)
-    await doDeleteSubscription({ variables: { input: { id: subscription.id } } });
-    console.log('after delete, we should do some stuff')
+    await doDeleteSubscription(
+      {
+        variables: { input: { id: subscription.id } },
+        update: (cache, { data: deleteSubscription }) => {
+          const data: SubscriptionsList | null = cache.readQuery({ query: listSubscriptionsQuery });
+          if (data && data.listSubscriptions) {
+            cache.writeQuery({
+              query: listSubscriptionsQuery,
+              data: {
+                listSubscriptions: data.listSubscriptions.items.filter(sub => sub.id !== deleteSubscription.id)
+              }
+            });
+          }
+        }
+      },
+    );
+
+    history.push('/today');
+    toasts.success('Subscription successfully deleted');
   }
 
   return (

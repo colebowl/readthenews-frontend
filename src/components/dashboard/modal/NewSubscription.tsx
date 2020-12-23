@@ -22,12 +22,12 @@ const NewSubscription: React.FC<Props> = (props) => {
   const handleCreateSubscription = async (subscription: FormFields) => {
     const { iconUrl, ...restSubscription } = subscription;
 
-    await createSubscriptionMutation(
+    const result = await createSubscriptionMutation(
       {
         variables: { input: restSubscription },
         update: (cache, { data: createSubscription }) => {
           const data: SubscriptionsList | null = cache.readQuery({ query: listSubscriptionsQuery });
-          if (data) {
+          if (data && data.listSubscriptions) {
             cache.writeQuery({
               query: listSubscriptionsQuery,
               data: {
@@ -42,6 +42,7 @@ const NewSubscription: React.FC<Props> = (props) => {
       });
 
 
+      console.log('result:', result)
     toasts.success('New subscription created successfully');
     props.onSubmit();
   }

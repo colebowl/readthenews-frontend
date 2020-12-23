@@ -67,9 +67,9 @@ const useAmplifyAuth = () => {
     Auth.currentAuthenticatedUser()
       .then(async user => {
         if (user) {
-          // console.log('user:', user)
           //Get the current session from aws amplify
           const session = await Auth.currentSession();
+          console.log('session:', session)
           // console.log('session:', session)
           if (chrome) {
             chrome.runtime.sendMessage(

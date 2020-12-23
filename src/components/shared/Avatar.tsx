@@ -24,7 +24,7 @@ const Avatar: React.FC<Props> = (props) => {
       background={color || (url ? undefined : 'light-3')}
       src={url}
     >
-      {(name && !url) && <Text size={props.size || "small"}>{initials}</Text>}
+      {(name && !url) && <Text weight="bold" size={props.size || "small"}>{initials}</Text>}
     </GAvatar>
   );
 }

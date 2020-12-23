@@ -10,7 +10,7 @@ const Welcome: React.FC<Props> = (props) => {
   const { profile } = useProfile();
   const history = useHistory();
 
-  const [visiblePage, setVisiblePage] = React.useState<'profile' | 'payment' | 'welcome'>('welcome')
+  const [visiblePage, setVisiblePage] = React.useState<'profile' | 'payment' | 'welcome'>('profile');
 
   const titles = {
     profile: 'Complete your profile',
